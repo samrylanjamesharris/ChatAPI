@@ -4,6 +4,8 @@ A standalone HTML chat interface for interacting with AI models via API. No inst
 **Try it live:** [Live Website!](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
 
 ---
+<img width="854" height="480" alt="Screenshot 2025-08-08 9 58 47 PM" src="https://github.com/user-attachments/assets/1a367b73-e1b7-4dfc-8640-c4f17aa24cf6" />
+---
 
 ## Features:
 - **Zero Dependencies**: Just one HTML file. Easy to host and share.
@@ -53,3 +55,4 @@ I am focusing on updating this in future and add more features, such as...
 Thats all for now, but more updates will come and will be added here.
 
 ---
+
