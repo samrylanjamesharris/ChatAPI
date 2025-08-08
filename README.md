@@ -1,7 +1,7 @@
 # ChatAPI
 A standalone HTML chat interface for interacting with AI models via API. No installation, no backend, just a single file hosted
 
-**Try it live:** [https://yourusername.github.io/ChatAPI](https://yourusername.github.io/ChatAPI)
+**Try it live:** [Live Website!](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
 
 ---
 
@@ -17,7 +17,7 @@ A standalone HTML chat interface for interacting with AI models via API. No inst
 
 ## How to Use:
 1. **Open the App**  
-   Visit the hosted page: [https://yourusername.github.io/ChatAPI](https://yourusername.github.io/ChatAPI)
+   Visit the hosted page: [Live Website!](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
 2. **Open Settings**  
    Click the **Settings** button in the top-right.
 3. **Enter Your API Details**
