@@ -30,8 +30,7 @@ A standalone HTML chat interface for interacting with AI models via API. No inst
 
 ---
 
-## Security
-
+## Security:
 - All processing happens **in your browser** — no data is sent to any server.
 - Your API key is stored **only in localStorage** and never shared.
 - Ideal for private, secure AI interactions.
@@ -40,9 +39,17 @@ A standalone HTML chat interface for interacting with AI models via API. No inst
 
 ---
 
-## Feedback & Contributions
+## Feedback & Contributions:
 
 Found a bug or want a new feature?  
 Feel free to open an issue or pull request and I'll respond as soon as I can.
+
+---
+
+## Updates:
+I am focusing on updating this in future and add more features, such as...
+- **Document and File Extention**: I want to add the feature of adding files to the AI if it is supported.
+  
+Thats all for now, but more updates will come and will be added here.
 
 ---
