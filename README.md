@@ -1,2 +1,48 @@
 # ChatAPI
-Standalone HTML chat interface for interacting with AI models via API.
+A standalone HTML chat interface for interacting with AI models via API. No installation, no backend, just a single file hosted
+
+**Try it live:** [https://yourusername.github.io/ChatAPI](https://yourusername.github.io/ChatAPI)
+
+---
+
+## Features:
+- **Zero Dependencies**: Just one HTML file. Easy to host and share.
+- **Fully Configurable**: Set your API key, model, endpoint, and system prompt if you want to.
+- **UI**: Dark mode design with animations and responsive layout.
+- **Markdown Support**: AI responses are rendered with full Markdown (code blocks, tables, lists, etc.).
+- **Local Storage**: Remembers your settings between sessions.
+- **Works with Any API**: Compatible with OpenAI, Anthropic, Mistral, Ollama, etc.
+
+---
+
+## How to Use:
+1. **Open the App**  
+   Visit the hosted page: [https://yourusername.github.io/ChatAPI](https://yourusername.github.io/ChatAPI)
+2. **Open Settings**  
+   Click the **Settings** button in the top-right.
+3. **Enter Your API Details**
+   - **API Key**: Your secret key (e.g., `sk-...`)
+   - **Model**: Model name (e.g., `gpt-3.5-turbo`, `claude-3-haiku`, `llama3`)
+   - **API Endpoint**: Full URL (e.g., `https://api.openai.com/v1/chat/completions`)
+   - **System Prompt**: Set behavior (e.g., "You are a helpful assistant.")
+4. **Start Chatting**  
+   Type a message and press **Send** or **Enter**.
+
+---
+
+## Security
+
+- All processing happens **in your browser** — no data is sent to any server.
+- Your API key is stored **only in localStorage** and never shared.
+- Ideal for private, secure AI interactions.
+
+> **Note**: Don't expose your API key on public repositories. This app runs client-side, so your key stays with you.
+
+---
+
+## Feedback & Contributions
+
+Found a bug or want a new feature?  
+Feel free to open an issue or pull request and I'll respond as soon as I can.
+
+---
