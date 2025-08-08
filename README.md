@@ -48,7 +48,7 @@ Feel free to open an issue or pull request and I'll respond as soon as I can.
 
 ## Updates:
 I am focusing on updating this in future and add more features, such as...
-- **Document and File Extention**: I want to add the feature of adding files to the AI if it is supported.
+- **Document and File Extension**: I want to add the feature of adding files to the AI if it is supported.
   
 Thats all for now, but more updates will come and will be added here.
 
