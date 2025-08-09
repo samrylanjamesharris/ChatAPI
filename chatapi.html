@@ -20,7 +20,8 @@
       --accent-hover: #7150c2;
       --text-primary: #f0f0f0;
       --text-secondary: #b0b0c0;
-      --success-color: #4ade80;
+      --success-color: #29572d;
+      --error-color: #f87171;
       --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
       --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
@@ -64,7 +65,11 @@
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.5px;
     }
-    #settings-btn {
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    #settings-btn, #clear-btn {
       background: var(--bg-tertiary);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
@@ -78,7 +83,7 @@
       gap: 6px;
       font-family: inherit;
     }
-    #settings-btn:hover {
+    #settings-btn:hover, #clear-btn:hover {
       background: var(--accent-color);
       color: white;
       border-color: var(--accent-color);
@@ -139,6 +144,7 @@
       margin: 12px 0;
       border: 1px solid var(--border-color);
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
     }
     .ai pre code {
       background-color: transparent;
@@ -371,6 +377,37 @@
       50% { box-shadow: 0 0 0 10px rgba(138, 99, 210, 0.1); }
       100% { box-shadow: var(--shadow-lg); }
     }
+    .copy-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--accent-hover);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .ai pre:hover .copy-button {
+      opacity: 1;
+    }
+    .retry-button {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .error-message {
+      color: var(--error-color);
+      font-weight: 500;
+    }
     @media (max-width: 768px) {
       .message {
         max-width: 90%;
@@ -390,24 +427,28 @@
 </head>
 <body>
   <header>
-    <div class="logo">V1.0</div>
-    <button id="settings-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-      Settings
-    </button>
+    <div class="logo">V1.1</div>
+    <div class="header-buttons">
+      <button id="clear-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+        Clear Chat
+      </button>
+      <button id="settings-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+    </div>
   </header>
   <div id="chat"></div>
   <div id="input-box">
     <input type="text" id="input" placeholder="Message ChatAPI..." autocomplete="off" />
     <button id="send">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      Send
     </button>
   </div>
   <div id="settings-modal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>API Configuration</h2>
+      <h2>API Configuration:</h2>
       <form id="settings-form">
         <div class="form-group">
           <label for="api-key">API Key</label>
@@ -415,14 +456,14 @@
         </div>
         <div class="form-group">
           <label for="api-model">Model</label>
-          <input type="text" id="api-model" name="api-model" placeholder="Enter a model...">
+          <input type="text" id="api-model" name="api-model" placeholder="Enter a AI Model...">
         </div>
         <div class="form-group">
           <label for="api-url">API Endpoint</label>
           <input type="text" id="api-url" name="api-url" placeholder="Enter a URL...">
         </div>
         <div class="form-group">
-          <label for="internal-prompt">System Prompt (Optional)</label>
+          <label for="internal-prompt">System Prompt</label>
           <textarea id="internal-prompt" name="internal-prompt" placeholder="Instructions for the AI..."></textarea>
         </div>
         <button type="submit">
@@ -436,6 +477,7 @@
     const chat = document.getElementById('chat');
     const input = document.getElementById('input');
     const send = document.getElementById('send');
+    const clearBtn = document.getElementById('clear-btn');
     const settingsBtn = document.getElementById('settings-btn');
     const settingsModal = document.getElementById('settings-modal');
     const closeBtn = document.querySelector('.close');
@@ -456,7 +498,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-color);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
       </div>
       <h2 style="margin-bottom: 12px; color: white;">ChatAPI</h2>
-      <p>Start a conversation or adjust settings to configure your API connection.</p>
+      <p>Standalone AI Chat Interface.</p>
     `;
     chat.appendChild(welcomeMessage);
     function hideWelcomeMessage() {
@@ -465,6 +507,20 @@
         welcome.style.display = 'none';
       }
     }
+    function clearChat() {
+      while (chat.firstChild) {
+        chat.removeChild(chat.firstChild);
+      }
+      chat.appendChild(welcomeMessage);
+      welcomeMessage.style.display = 'block';
+      messages = [];
+      if (apiSettings.internalPrompt) {
+         messages.push({ role: 'system', content: apiSettings.internalPrompt });
+      }
+      currentAiMessageElement = null;
+      currentAiMessageContent = "";
+    }
+    clearBtn.addEventListener('click', clearChat);
     settingsBtn.addEventListener('click', () => {
       document.getElementById('api-key').value = apiSettings.key;
       document.getElementById('api-model').value = apiSettings.model;
@@ -492,6 +548,10 @@
       localStorage.setItem('chatapi_model', apiSettings.model);
       localStorage.setItem('chatapi_url', apiSettings.url);
       localStorage.setItem('chatapi_internal_prompt', apiSettings.internalPrompt);
+      messages = [];
+      if (apiSettings.internalPrompt) {
+         messages.push({ role: 'system', content: apiSettings.internalPrompt });
+      }
       settingsModal.style.display = 'none';
       const originalText = settingsBtn.innerHTML;
       settingsBtn.innerHTML = `
@@ -512,10 +572,8 @@
       breaks: true,
       gfm: true,
     });
-
     let currentAiMessageElement = null;
     let currentAiMessageContent = "";
-
     function appendMessage(role, text) {
       const msg = document.createElement('div');
       msg.className = `message ${role}`;
@@ -528,18 +586,59 @@
       chat.scrollTop = chat.scrollHeight;
       return msg;
     }
-
-    async function sendMessage() {
-      const userInput = input.value.trim();
+    function addCopyButtons() {
+      document.querySelectorAll('.ai pre').forEach(block => {
+        if (block.querySelector('.copy-button')) return;
+        
+        const button = document.createElement('button');
+        button.className = 'copy-button';
+        button.textContent = 'Copy';
+        block.appendChild(button);
+        
+        button.addEventListener('click', () => {
+          navigator.clipboard.writeText(block.textContent.replace('Copy', ''))
+            .then(() => {
+              const originalText = button.textContent;
+              button.textContent = 'Copied!';
+              setTimeout(() => button.textContent = originalText, 2000);
+            });
+        });
+      });
+    }
+    function addRetryButton(errorMessageElement, originalMessage) {
+      const retryButton = document.createElement('button');
+      retryButton.className = 'retry-button';
+      retryButton.textContent = 'Retry';
+      retryButton.addEventListener('click', () => {
+        errorMessageElement.remove();
+        resendLastMessage();
+      });
+      errorMessageElement.appendChild(retryButton);
+    }
+    function resendLastMessage() {
+      if (messages.length > 0 && messages[messages.length - 1].role === 'user') {
+        const lastUserMessage = messages[messages.length - 1].content;
+        if (messages.length > 1 && messages[messages.length - 2].role === 'assistant') {
+          messages.pop(); 
+        }
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
+        sendMessage(lastUserMessage, true);
+      }
+    }
+    async function sendMessage(userInputOverride = null, isRetry = false) {
+      const userInput = userInputOverride || input.value.trim();
       if (!userInput) return;
-      hideWelcomeMessage();
-      appendMessage('user', userInput);
-      input.value = '';
-      messages.push({ role: 'user', content: userInput });
-
+      
+      if (!isRetry) {
+        hideWelcomeMessage();
+        appendMessage('user', userInput);
+        input.value = '';
+        messages.push({ role: 'user', content: userInput });
+      }
+      
       currentAiMessageElement = null;
       currentAiMessageContent = "";
-
       const typingIndicator = document.createElement('div');
       typingIndicator.className = 'message ai';
       typingIndicator.id = 'typing-indicator';
@@ -561,7 +660,7 @@
       `;
       chat.appendChild(typingIndicator);
       chat.scrollTop = chat.scrollHeight;
-
+      
       try {
         const response = await fetch(apiSettings.url, {
           method: 'POST',
@@ -575,29 +674,35 @@
             stream: true
           })
         });
-
         const indicator = document.getElementById('typing-indicator');
         if (indicator) indicator.remove();
-
+        
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error("Server error:", errorText);
-          appendMessage('ai', `Server error: ${response.status}`);
+          let errorMessage = `Server error: ${response.status}`;
+          
+          if (response.status === 401) {
+            errorMessage = "Authentication failed. Please check your API key.";
+          } else if (response.status === 429) {
+            errorMessage = "Rate limit exceeded. Please try again later.";
+          } else if (response.status >= 500) {
+            errorMessage = "Server is temporarily unavailable. Please try again later.";
+          }
+          
+          const errorElement = appendMessage('ai', errorMessage);
+          errorElement.classList.add('error-message');
+          addRetryButton(errorElement, userInput);
           return;
         }
-
+        
         const reader = response.body.getReader();
         const decoder = new TextDecoder("utf-8");
         let buffer = "";
-
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split("\n");
           buffer = lines.pop();
-
           for (const line of lines) {
             if (line.startsWith("data: ")) {
               const data = line.slice(6);
@@ -605,6 +710,7 @@
                 messages.push({ role: 'assistant', content: currentAiMessageContent });
                 currentAiMessageElement = null;
                 currentAiMessageContent = "";
+                addCopyButtons();
                 return;
               }
               try {
@@ -624,25 +730,25 @@
             }
           }
         }
-
         if (buffer.startsWith("data: ")) {
             const data = buffer.slice(6);
             if (data === "[DONE]") {
                 messages.push({ role: 'assistant', content: currentAiMessageContent });
+                addCopyButtons();
             }
         }
-
       } catch (err) {
         const indicator = document.getElementById('typing-indicator');
         if (indicator) indicator.remove();
         console.error("Fetch error:", err);
-        appendMessage('ai', `Error: ${err.message}`);
+        const errorElement = appendMessage('ai', `Error: ${err.message}`);
+        errorElement.classList.add('error-message');
+        addRetryButton(errorElement, userInput);
         currentAiMessageElement = null;
         currentAiMessageContent = "";
       }
     }
-
-    send.addEventListener('click', sendMessage);
+    send.addEventListener('click', () => sendMessage());
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
