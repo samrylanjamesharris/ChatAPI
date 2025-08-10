@@ -21,6 +21,7 @@
       --text-primary: #f0f0f0;
       --text-secondary: #b0b0c0;
       --success-color: #29572d;
+      --warning-color: #92400e;
       --error-color: #f87171;
       --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
@@ -117,6 +118,10 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
     .user {
       background-color: var(--user-msg-bg);
@@ -231,6 +236,29 @@
       box-shadow: var(--shadow-lg);
     }
     #send:active {
+      transform: translateY(0);
+    }
+    #stop {
+      padding: 14px 22px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #stop:hover {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    #stop:active {
       transform: translateY(0);
     }
     ::-webkit-scrollbar {
@@ -408,6 +436,33 @@
       color: var(--error-color);
       font-weight: 500;
     }
+    .warning-message {
+      background: var(--warning-color);
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      margin: 10px 0;
+      color: white;
+      font-size: 0.9rem;
+    }
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-color);
+      border-radius: 50%;
+    }
+    .typing-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
     @media (max-width: 768px) {
       .message {
         max-width: 90%;
@@ -423,48 +478,66 @@
         padding: 16px;
       }
     }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">V1.1</div>
+    <div class="logo">V1.2</div>
     <div class="header-buttons">
-      <button id="clear-btn">
+      <button id="clear-btn" aria-label="Clear chat">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
         Clear Chat
       </button>
-      <button id="settings-btn">
+      <button id="settings-btn" aria-label="Open settings">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
       </button>
     </div>
   </header>
   <div id="chat"></div>
   <div id="input-box">
-    <input type="text" id="input" placeholder="Message ChatAPI..." autocomplete="off" />
-    <button id="send">
+    <input type="text" id="input" placeholder="Message ChatAPI..." autocomplete="off" aria-label="Type your message" />
+    <button id="send" aria-label="Send message">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      <span class="sr-only">Send</span>
+    </button>
+    <button id="stop" style="display: none;" aria-label="Stop generating">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+      Stop
     </button>
   </div>
   <div id="settings-modal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close" role="button" aria-label="Close settings">&times;</span>
       <h2>API Configuration:</h2>
       <form id="settings-form">
+        <div class="warning-message">
+          API Keys are stored in your browser, no data leaks.
+        </div>
         <div class="form-group">
           <label for="api-key">API Key</label>
-          <input type="password" id="api-key" name="api-key" placeholder="Enter a API key...">
+          <input type="password" id="api-key" name="api-key" placeholder="Enter API key..." aria-label="API Key">
         </div>
         <div class="form-group">
           <label for="api-model">Model</label>
-          <input type="text" id="api-model" name="api-model" placeholder="Enter a AI Model...">
+          <input type="text" id="api-model" name="api-model" placeholder="Enter AI Model..." aria-label="AI Model">
         </div>
         <div class="form-group">
           <label for="api-url">API Endpoint</label>
-          <input type="text" id="api-url" name="api-url" placeholder="Enter a URL...">
+          <input type="text" id="api-url" name="api-url" placeholder="Enter URL..." aria-label="API Endpoint">
         </div>
         <div class="form-group">
           <label for="internal-prompt">System Prompt</label>
-          <textarea id="internal-prompt" name="internal-prompt" placeholder="Instructions for the AI..."></textarea>
+          <textarea id="internal-prompt" name="internal-prompt" placeholder="Instructions for the AI..." aria-label="System Prompt"></textarea>
         </div>
         <button type="submit">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
@@ -477,20 +550,26 @@
     const chat = document.getElementById('chat');
     const input = document.getElementById('input');
     const send = document.getElementById('send');
+    const stop = document.getElementById('stop');
     const clearBtn = document.getElementById('clear-btn');
     const settingsBtn = document.getElementById('settings-btn');
     const settingsModal = document.getElementById('settings-modal');
     const closeBtn = document.querySelector('.close');
     const settingsForm = document.getElementById('settings-form');
+    
     const defaultApiKey = "";
     const defaultApiUrl = "";
     const defaultModel = "";
+    
     let apiSettings = {
       key: localStorage.getItem('chatapi_key') || defaultApiKey,
       model: localStorage.getItem('chatapi_model') || defaultModel,
       url: localStorage.getItem('chatapi_url') || defaultApiUrl,
       internalPrompt: localStorage.getItem('chatapi_internal_prompt') || ""
     };
+
+    let systemMessages = apiSettings.internalPrompt ? [{ role: 'system', content: apiSettings.internalPrompt }] : [];
+    
     const welcomeMessage = document.createElement('div');
     welcomeMessage.id = 'welcome-message';
     welcomeMessage.innerHTML = `
@@ -501,12 +580,14 @@
       <p>Standalone AI Chat Interface.</p>
     `;
     chat.appendChild(welcomeMessage);
+
     function hideWelcomeMessage() {
       const welcome = document.getElementById('welcome-message');
       if (welcome) {
         welcome.style.display = 'none';
       }
     }
+
     function clearChat() {
       while (chat.firstChild) {
         chat.removeChild(chat.firstChild);
@@ -514,28 +595,34 @@
       chat.appendChild(welcomeMessage);
       welcomeMessage.style.display = 'block';
       messages = [];
-      if (apiSettings.internalPrompt) {
-         messages.push({ role: 'system', content: apiSettings.internalPrompt });
-      }
+      localStorage.removeItem('chatapi_messages');
       currentAiMessageElement = null;
       currentAiMessageContent = "";
     }
+
     clearBtn.addEventListener('click', clearChat);
+
+    let controller = null;
+    
     settingsBtn.addEventListener('click', () => {
       document.getElementById('api-key').value = apiSettings.key;
       document.getElementById('api-model').value = apiSettings.model;
       document.getElementById('api-url').value = apiSettings.url;
       document.getElementById('internal-prompt').value = apiSettings.internalPrompt;
       settingsModal.style.display = 'flex';
+      document.getElementById('api-key').focus();
     });
+
     closeBtn.addEventListener('click', () => {
       settingsModal.style.display = 'none';
     });
+
     window.addEventListener('click', (event) => {
       if (event.target === settingsModal) {
         settingsModal.style.display = 'none';
       }
     });
+
     settingsForm.addEventListener('submit', (e) => {
       e.preventDefault();
       apiSettings = {
@@ -544,14 +631,25 @@
         url: document.getElementById('api-url').value,
         internalPrompt: document.getElementById('internal-prompt').value
       };
-      localStorage.setItem('chatapi_key', apiSettings.key);
-      localStorage.setItem('chatapi_model', apiSettings.model);
-      localStorage.setItem('chatapi_url', apiSettings.url);
-      localStorage.setItem('chatapi_internal_prompt', apiSettings.internalPrompt);
-      messages = [];
-      if (apiSettings.internalPrompt) {
-         messages.push({ role: 'system', content: apiSettings.internalPrompt });
+
+      try {
+        localStorage.setItem('chatapi_key', apiSettings.key);
+        localStorage.setItem('chatapi_model', apiSettings.model);
+        localStorage.setItem('chatapi_url', apiSettings.url);
+        localStorage.setItem('chatapi_internal_prompt', apiSettings.internalPrompt);
+      } catch (e) {
+        console.error('LocalStorage error:', e);
+        alert('Failed to save settings - check storage permissions');
+        return;
       }
+        
+      systemMessages = apiSettings.internalPrompt 
+        ? [{ role: 'system', content: apiSettings.internalPrompt }]
+        : [];
+
+      messages = [];
+      localStorage.removeItem('chatapi_messages');
+
       settingsModal.style.display = 'none';
       const originalText = settingsBtn.innerHTML;
       settingsBtn.innerHTML = `
@@ -564,16 +662,47 @@
         settingsBtn.style.background = '';
       }, 2000);
     });
+
     let messages = [];
-    if (apiSettings.internalPrompt) {
-      messages.push({ role: 'system', content: apiSettings.internalPrompt });
+    try {
+      const savedMessages = localStorage.getItem('chatapi_messages');
+      messages = savedMessages ? JSON.parse(savedMessages) : [];
+    } catch (e) {
+      console.error('Failed to parse messages from localStorage:', e);
+      messages = [];
     }
+
+    if (messages.length === 0 && systemMessages.length > 0) {
+      messages = [...systemMessages];
+    }
+
+    messages.forEach(msg => {
+      if (msg.role === 'system') return;
+      const roleClass = msg.role === 'assistant' ? 'ai' : msg.role;
+      const msgEl = appendMessage(roleClass, msg.content);
+      if (msg.role === 'assistant') {
+        msgEl.innerHTML = marked.parse(msg.content);
+      }
+      hideWelcomeMessage();
+    });
+
     marked.setOptions({
       breaks: true,
       gfm: true,
     });
+
     let currentAiMessageElement = null;
     let currentAiMessageContent = "";
+
+    function saveMessagesToStorage() {
+      try {
+        const visibleMessages = messages.filter(msg => msg.role !== 'system');
+        localStorage.setItem('chatapi_messages', JSON.stringify(visibleMessages));
+      } catch (e) {
+        console.error('Failed to save messages:', e);
+      }
+    }
+
     function appendMessage(role, text) {
       const msg = document.createElement('div');
       msg.className = `message ${role}`;
@@ -586,6 +715,7 @@
       chat.scrollTop = chat.scrollHeight;
       return msg;
     }
+
     function addCopyButtons() {
       document.querySelectorAll('.ai pre').forEach(block => {
         if (block.querySelector('.copy-button')) return;
@@ -593,10 +723,15 @@
         const button = document.createElement('button');
         button.className = 'copy-button';
         button.textContent = 'Copy';
+        button.setAttribute('aria-label', 'Copy code');
         block.appendChild(button);
         
         button.addEventListener('click', () => {
-          navigator.clipboard.writeText(block.textContent.replace('Copy', ''))
+          const codeText = Array.from(block.querySelectorAll('code'))
+            .map(code => code.textContent)
+            .join('\n');
+            
+          navigator.clipboard.writeText(codeText)
             .then(() => {
               const originalText = button.textContent;
               button.textContent = 'Copied!';
@@ -605,16 +740,19 @@
         });
       });
     }
+
     function addRetryButton(errorMessageElement, originalMessage) {
       const retryButton = document.createElement('button');
       retryButton.className = 'retry-button';
       retryButton.textContent = 'Retry';
+      retryButton.setAttribute('aria-label', 'Retry message');
       retryButton.addEventListener('click', () => {
         errorMessageElement.remove();
         resendLastMessage();
       });
       errorMessageElement.appendChild(retryButton);
     }
+
     function resendLastMessage() {
       if (messages.length > 0 && messages[messages.length - 1].role === 'user') {
         const lastUserMessage = messages[messages.length - 1].content;
@@ -626,6 +764,7 @@
         sendMessage(lastUserMessage, true);
       }
     }
+
     async function sendMessage(userInputOverride = null, isRetry = false) {
       const userInput = userInputOverride || input.value.trim();
       if (!userInput) return;
@@ -635,33 +774,37 @@
         appendMessage('user', userInput);
         input.value = '';
         messages.push({ role: 'user', content: userInput });
+        saveMessagesToStorage();
       }
       
       currentAiMessageElement = null;
       currentAiMessageContent = "";
+      
       const typingIndicator = document.createElement('div');
       typingIndicator.className = 'message ai';
       typingIndicator.id = 'typing-indicator';
       typingIndicator.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div style="display: flex; gap: 4px;">
-            <div style="width: 8px; height: 8px; background: var(--accent-color); border-radius: 50%; animation: bounce 1.5s infinite 0s;"></div>
-            <div style="width: 8px; height: 8px; background: var(--accent-color); border-radius: 50%; animation: bounce 1.5s infinite 0.2s;"></div>
-            <div style="width: 8px; height: 8px; background: var(--accent-color); border-radius: 50%; animation: bounce 1.5s infinite 0.4s;"></div>
+        <div class="typing-indicator">
+          <div class="typing-dots">
+            <div class="typing-dot" style="animation-delay: 0s"></div>
+            <div class="typing-dot" style="animation-delay: 0.2s"></div>
+            <div class="typing-dot" style="animation-delay: 0.4s"></div>
           </div>
-          <span style="color: var(--text-secondary); font-size: 0.9rem;">Thinking...</span>
+          <div class="typing-text">Generating...</div>
         </div>
-        <style>
-          @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-          }
-        </style>
       `;
       chat.appendChild(typingIndicator);
       chat.scrollTop = chat.scrollHeight;
       
+      send.style.display = 'none';
+      stop.style.display = 'flex';
+      
       try {
+        controller = new AbortController();
+        const signal = controller.signal;
+        
+        const allMessages = [...systemMessages, ...messages.filter(m => m.role !== 'system')];
+        
         const response = await fetch(apiSettings.url, {
           method: 'POST',
           headers: {
@@ -670,23 +813,23 @@
           },
           body: JSON.stringify({
             model: apiSettings.model,
-            messages: messages,
+            messages: allMessages,
             stream: true
-          })
+          }),
+          signal: signal
         });
-        const indicator = document.getElementById('typing-indicator');
-        if (indicator) indicator.remove();
+        
+        document.getElementById('typing-indicator')?.remove();
         
         if (!response.ok) {
-          let errorMessage = `Server error: ${response.status}`;
+          let errorMessage = `Error: ${response.status} ${response.statusText}`;
           
-          if (response.status === 401) {
-            errorMessage = "Authentication failed. Please check your API key.";
-          } else if (response.status === 429) {
-            errorMessage = "Rate limit exceeded. Please try again later.";
-          } else if (response.status >= 500) {
-            errorMessage = "Server is temporarily unavailable. Please try again later.";
-          }
+          errorMessage = {
+            401: "Authentication failed - check API key",
+            429: "Rate limit exceeded - please wait",
+            500: "Server error - try again later",
+            503: "Service unavailable",
+          }[response.status] || errorMessage;
           
           const errorElement = appendMessage('ai', errorMessage);
           errorElement.classList.add('error-message');
@@ -694,67 +837,102 @@
           return;
         }
         
+        if (!response.body) {
+          throw new Error('No response body');
+        }
+        
         const reader = response.body.getReader();
         const decoder = new TextDecoder("utf-8");
         let buffer = "";
+        
         while (true) {
           const { done, value } = await reader.read();
-          if (done) break;
+          if (done || signal.aborted) break;
+          
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split("\n");
-          buffer = lines.pop();
+          buffer = lines.pop() || "";
+          
           for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const data = line.slice(6);
-              if (data === "[DONE]") {
-                messages.push({ role: 'assistant', content: currentAiMessageContent });
-                currentAiMessageElement = null;
-                currentAiMessageContent = "";
-                addCopyButtons();
-                return;
-              }
-              try {
-                const parsed = JSON.parse(data);
-                const content = parsed.choices?.[0]?.delta?.content;
-                if (content) {
-                  currentAiMessageContent += content;
-                  if (!currentAiMessageElement) {
-                    currentAiMessageElement = appendMessage('ai', currentAiMessageContent);
-                  } else {
-                    currentAiMessageElement.innerHTML = marked.parse(currentAiMessageContent);
-                    chat.scrollTop = chat.scrollHeight;
-                  }
+            if (!line.startsWith("data: ")) continue;
+            
+            const data = line.slice(6);
+            if (data === "[DONE]") {
+              messages.push({ role: 'assistant', content: currentAiMessageContent });
+              saveMessagesToStorage();
+              currentAiMessageElement = null;
+              currentAiMessageContent = "";
+              addCopyButtons();
+              return;
+            }
+            
+            try {
+              const parsed = JSON.parse(data);
+              const content = parsed.choices?.[0]?.delta?.content;
+              
+              if (content) {
+                currentAiMessageContent += content;
+                
+                if (!currentAiMessageElement) {
+                  currentAiMessageElement = appendMessage('ai', currentAiMessageContent);
+                } else {
+                  currentAiMessageElement.innerHTML = marked.parse(currentAiMessageContent);
+                  addCopyButtons();
+                  chat.scrollTop = chat.scrollHeight;
                 }
-              } catch (e) {
               }
+            } catch (e) {
+              console.debug('Error parsing stream data:', e);
             }
           }
         }
-        if (buffer.startsWith("data: ")) {
-            const data = buffer.slice(6);
-            if (data === "[DONE]") {
-                messages.push({ role: 'assistant', content: currentAiMessageContent });
-                addCopyButtons();
-            }
-        }
       } catch (err) {
-        const indicator = document.getElementById('typing-indicator');
-        if (indicator) indicator.remove();
-        console.error("Fetch error:", err);
-        const errorElement = appendMessage('ai', `Error: ${err.message}`);
-        errorElement.classList.add('error-message');
-        addRetryButton(errorElement, userInput);
+        if (err.name !== 'AbortError') {
+          document.getElementById('typing-indicator')?.remove();
+          console.error("Fetch error:", err);
+          
+          let userMessage = err.message;
+          if (err.name === 'TypeError') {
+            userMessage = "Network error - check connection";
+          }
+          
+          const errorElement = appendMessage('ai', `Error: ${userMessage}`);
+          errorElement.classList.add('error-message');
+          addRetryButton(errorElement, userInput);
+        }
+      } finally {
+        send.style.display = 'flex';
+        stop.style.display = 'none';
+        controller = null;
+      }
+    }
+
+    send.addEventListener('click', () => sendMessage());
+    
+    stop.addEventListener('click', () => {
+      if (controller) {
+        controller.abort();
+        document.getElementById('typing-indicator')?.remove();
+        
+        if (currentAiMessageContent) {
+          messages.push({ role: 'assistant', content: currentAiMessageContent });
+          saveMessagesToStorage();
+          addCopyButtons();
+        }
+        
         currentAiMessageElement = null;
         currentAiMessageContent = "";
       }
-    }
-    send.addEventListener('click', () => sendMessage());
+    });
+
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         sendMessage();
       }
     });
+
+    addCopyButtons();
   </script>
 </body>
 </html>
