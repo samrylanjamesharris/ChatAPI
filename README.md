@@ -1,4 +1,4 @@
-# ChatAPI
+# ChatAPI - V1.3
 A standalone HTML chat interface for interacting with AI models via API. No installation, no backend, just a single file hosted
 
 **Try it live:** [Live Website!](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
