@@ -53,3 +53,12 @@ Feel free to open an issue or pull request and I'll respond as soon as I can.
 
 ---
 
+## Updates:
+
+Version History:
+| Version | Features and Improvements |
+|---------|----------------------------|
+| **V1.0** | - Initial release allowing users to interact with any AI model using an **API key**.<br>- Responses are formatted in **Markdown** for more readability, supporting headers, code blocks, tables, and etc. |
+| **V1.1** | - Added a **Clear Chat** button to easily erase conversation history without reloading the page.<br>- Introduced **Retry** functionality if the AI fails to generate a response.<br>- Enabled **Copy Code** button for code blocks, allowing easy copying without manual selection.<br>- Improved UI design for a cleaner, more modern appearance. |
+| **V1.2** | - Added a **Stop Generating** button to abort ongoing AI responses.<br>- Enhanced error handling for more reliable performance.<br>- Improved local storage to **persist chat history** across page reloads and browser sessions.<br>- Refactored codebase for better structure and readability, making it easier for developers to customize. |
+| **V1.3** | - Added the ability to **download chat history** in `.json` format for backup or sharing.<br>- Introduced **editable prompts**, allowing users to correct typos or rephrase their input after sending. |
