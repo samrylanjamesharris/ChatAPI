@@ -15,7 +15,10 @@ A standalone HTML chat interface for interacting with AI models via API. No inst
 - **UI**: Dark mode design with animations and responsive layout.
 - **Markdown Support**: AI responses are rendered with full Markdown (code blocks, tables, lists, etc.).
 - **Local Storage**: Remembers your settings between sessions.
-- **Works with Any API**: Compatible with OpenAI, Anthropic, Mistral, Ollama, etc.
+- **Works with Any API**: Compatible with OpenAI, Anthropic, Mistral, Ollama, OpenRouter, Gemini, etc.
+- **Edit Prompts**: You can now edit your own prompt if you did a typo or worded it incorrectly.
+- **Export Chat**: You also can download your AI chat in .json for all your needs incase it's for training a model or saving it for later.
+- **Chat Storage**: When you exit the website or reload the page, it'll still be saved for later.
 
 ---
 
@@ -35,11 +38,11 @@ A standalone HTML chat interface for interacting with AI models via API. No inst
 ---
 
 ## Security:
-- All processing happens **in your browser** — no data is sent to any server.
+- All processing happens **in your browser**, no data is sent to any server.
 - Your API key is stored **only in localStorage** and never shared.
-- Ideal for private, secure AI interactions.
+- Ideal for private, AI interactions. *(Based on what your API service allows.)*
 
-> **Note**: Don't expose your API key on public repositories. This app runs client-side, so your key stays with you.
+> **Note**: Don't expose your API key. This app runs client-side, so your key stays with you.
 
 ---
 
