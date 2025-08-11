@@ -70,7 +70,7 @@
       display: flex;
       gap: 10px;
     }
-    #settings-btn, #clear-btn {
+    #settings-btn, #clear-btn, #export-btn {
       background: var(--bg-tertiary);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
@@ -84,7 +84,7 @@
       gap: 6px;
       font-family: inherit;
     }
-    #settings-btn:hover, #clear-btn:hover {
+    #settings-btn:hover, #clear-btn:hover, #export-btn:hover {
       background: var(--accent-color);
       color: white;
       border-color: var(--accent-color);
@@ -431,6 +431,10 @@
       font-size: 0.8rem;
       cursor: pointer;
       margin-top: 8px;
+      transition: all var(--transition-fast);
+    }
+    .retry-button:hover {
+      background: var(--accent-hover);
     }
     .error-message {
       color: var(--error-color);
@@ -458,10 +462,83 @@
       height: 8px;
       background: var(--accent-color);
       border-radius: 50%;
+      animation: bounce 1.5s infinite ease-in-out;
     }
     .typing-text {
       color: var(--text-secondary);
       font-size: 0.9rem;
+    }
+    .edit-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: all var(--transition-fast);
+    }
+    .user:hover .edit-button {
+      opacity: 1;
+    }
+    .edit-button:hover {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+    /* Edit mode styling */
+    .edit-mode {
+      padding: 12px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--accent-color);
+    }
+    .edit-textarea {
+      width: 100%;
+      min-height: 100px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      padding: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      resize: vertical;
+    }
+    .edit-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .edit-save, .edit-cancel {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      border: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .edit-save {
+      background: var(--accent-color);
+      color: white;
+    }
+    .edit-save:hover {
+      background: var(--accent-hover);
+    }
+    .edit-cancel {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    .edit-cancel:hover {
+      background: var(--bg-tertiary);
     }
     @media (max-width: 768px) {
       .message {
@@ -492,11 +569,15 @@
 </head>
 <body>
   <header>
-    <div class="logo">V1.2</div>
+    <div class="logo">V1.3</div>
     <div class="header-buttons">
       <button id="clear-btn" aria-label="Clear chat">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
         Clear Chat
+      </button>
+      <button id="export-btn" aria-label="Export chat">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Export Chat
       </button>
       <button id="settings-btn" aria-label="Open settings">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -552,6 +633,7 @@
     const send = document.getElementById('send');
     const stop = document.getElementById('stop');
     const clearBtn = document.getElementById('clear-btn');
+    const exportBtn = document.getElementById('export-btn');
     const settingsBtn = document.getElementById('settings-btn');
     const settingsModal = document.getElementById('settings-modal');
     const closeBtn = document.querySelector('.close');
@@ -602,6 +684,34 @@
 
     clearBtn.addEventListener('click', clearChat);
 
+    function exportChat() {
+      if (messages.length === 0) {
+        alert('No messages to export');
+        return;
+      }
+      
+      const exportData = {
+        metadata: {
+          exportDate: new Date().toISOString(),
+          exportDateFormatted: new Date().toLocaleString(),
+          totalMessages: messages.length,
+          model: apiSettings.model
+        },
+        messages: messages.filter(msg => msg.role !== 'system')
+      };
+
+      const dataStr = JSON.stringify(exportData, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      const timestamp = new Date().toISOString().slice(0,19).replace(/:/g, '-');
+      const filename = `chat-export-${timestamp}.json`;
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', filename);
+      linkElement.click();
+    }
+    
+    exportBtn.addEventListener('click', exportChat);
+    
     let controller = null;
     
     settingsBtn.addEventListener('click', () => {
@@ -676,10 +786,10 @@
       messages = [...systemMessages];
     }
 
-    messages.forEach(msg => {
+    messages.forEach((msg, index) => {
       if (msg.role === 'system') return;
       const roleClass = msg.role === 'assistant' ? 'ai' : msg.role;
-      const msgEl = appendMessage(roleClass, msg.content);
+      const msgEl = appendMessage(roleClass, msg.content, index);
       if (msg.role === 'assistant') {
         msgEl.innerHTML = marked.parse(msg.content);
       }
@@ -703,17 +813,103 @@
       }
     }
 
-    function appendMessage(role, text) {
+    function appendMessage(role, text, index) {
       const msg = document.createElement('div');
       msg.className = `message ${role}`;
+      if (index !== undefined) {
+        msg.dataset.index = index;
+      }
+      
       if (role === 'ai') {
         msg.innerHTML = marked.parse(text);
-      } else {
-        msg.textContent = text;
+      } else if (role === 'user') {
+        const contentDiv = document.createElement('div');
+        contentDiv.textContent = text;
+        msg.appendChild(contentDiv);
+        
+        // Add edit button
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit-button';
+        editBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+        editBtn.setAttribute('aria-label', 'Edit message');
+        editBtn.addEventListener('click', () => enableMessageEdit(msg));
+        msg.appendChild(editBtn);
       }
+      
       chat.appendChild(msg);
       chat.scrollTop = chat.scrollHeight;
       return msg;
+    }
+
+    function enableMessageEdit(messageElement) {
+      const index = parseInt(messageElement.dataset.index);
+      const originalContent = messages[index].content;
+      
+      messageElement.classList.add('edit-mode');
+      const editHTML = `
+        <textarea class="edit-textarea">${originalContent}</textarea>
+        <div class="edit-buttons">
+          <button class="edit-save" aria-label="Save changes">Save</button>
+          <button class="edit-cancel" aria-label="Cancel editing">Cancel</button>
+        </div>
+      `;
+      messageElement.innerHTML = editHTML;
+
+      const textarea = messageElement.querySelector('.edit-textarea');
+      textarea.focus();
+
+      messageElement.querySelector('.edit-save').addEventListener('click', () => {
+        const newContent = textarea.value.trim();
+        if (newContent && newContent !== originalContent) {
+          saveEditedMessage(index, newContent, messageElement);
+        }
+      });
+      
+      messageElement.querySelector('.edit-cancel').addEventListener('click', () => {
+        cancelEdit(messageElement, originalContent, index);
+      });
+    }
+
+    function saveEditedMessage(index, newContent, messageElement) {
+      messages[index].content = newContent;
+
+      const messagesToRemove = messages.slice(index + 1);
+      messagesToRemove.forEach((msg, i) => {
+        const msgElement = chat.querySelector(`[data-index="${index + 1 + i}"]`);
+        if (msgElement) msgElement.remove();
+      });
+      
+      messages = messages.slice(0, index + 1);
+
+      messages = messages.filter(msg => msg.role !== 'assistant');
+
+      saveMessagesToStorage();
+
+      messageElement.classList.remove('edit-mode');
+      messageElement.textContent = newContent;
+      messageElement.dataset.index = index;
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'edit-button';
+      editBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+      editBtn.addEventListener('click', () => enableMessageEdit(messageElement));
+      messageElement.appendChild(editBtn);
+        
+      const indicator = document.getElementById('typing-indicator');
+      if (indicator) indicator.remove();
+      sendMessage(newContent, true, index);
+    }
+
+    function cancelEdit(messageElement, originalContent, originalIndex) {
+      messageElement.classList.remove('edit-mode');
+      messageElement.textContent = originalContent;
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'edit-button';
+      editBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+      editBtn.addEventListener('click', () => enableMessageEdit(messageElement));
+      messageElement.appendChild(editBtn);
+      messageElement.dataset.index = originalIndex;
     }
 
     function addCopyButtons() {
@@ -756,24 +952,32 @@
     function resendLastMessage() {
       if (messages.length > 0 && messages[messages.length - 1].role === 'user') {
         const lastUserMessage = messages[messages.length - 1].content;
+        const messageIndex = messages.findIndex(msg => msg.content === lastUserMessage);
+
         if (messages.length > 1 && messages[messages.length - 2].role === 'assistant') {
           messages.pop(); 
+          const aiMessage = chat.querySelector('.ai:last-child');
+          if (aiMessage) aiMessage.remove();
         }
+        
         const indicator = document.getElementById('typing-indicator');
         if (indicator) indicator.remove();
-        sendMessage(lastUserMessage, true);
+        sendMessage(lastUserMessage, true, messageIndex);
       }
     }
 
-    async function sendMessage(userInputOverride = null, isRetry = false) {
+    async function sendMessage(userInputOverride = null, isRetry = false, messageIndex = null) {
       const userInput = userInputOverride || input.value.trim();
       if (!userInput) return;
       
       if (!isRetry) {
         hideWelcomeMessage();
-        appendMessage('user', userInput);
+        const msgEl = appendMessage('user', userInput, messages.length);
         input.value = '';
         messages.push({ role: 'user', content: userInput });
+        saveMessagesToStorage();
+      } else if (messageIndex !== null) {
+        messages[messageIndex].content = userInput;
         saveMessagesToStorage();
       }
       
