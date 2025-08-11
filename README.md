@@ -5,7 +5,7 @@ A standalone HTML chat interface for interacting with AI models via API. No inst
 
 ---
 
-<img width="854" height="480" alt="Screenshot 2025-08-08 9 58 47 PM" src="https://github.com/user-attachments/assets/1a367b73-e1b7-4dfc-8640-c4f17aa24cf6" />
+<img width="1366" height="768" alt="Screenshot 2025-08-12 12 20 54 AM" src="https://github.com/user-attachments/assets/4f913bdb-e82c-43e9-8602-46972c8abf1a" />
 
 ---
 
