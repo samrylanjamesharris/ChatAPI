@@ -1,11 +1,11 @@
-# ***ChatAPI - V1.3***
+# ***ChatAPI - V1.4***
 *A standalone HTML chat interface for interacting with AI models via API. No installation, no backend, just a single file hosted.*
 
 **Try it live:** [Live Website!](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
 
 ---
 
-<img width="1366" height="768" alt="Screenshot 2025-08-12 12 20 54 AM" src="https://github.com/user-attachments/assets/4f913bdb-e82c-43e9-8602-46972c8abf1a" />
+<img width="1366" height="768" alt="Screenshot 2025-08-14 4 50 43 PM" src="https://github.com/user-attachments/assets/fc4021c0-3b46-44d5-ba88-767c21a6ba62" />
 
 ---
 
@@ -60,3 +60,4 @@
 | **V1.1** | - Added a **Clear Chat** button to easily erase conversation history without reloading the page.<br>- Introduced **Retry** functionality if the AI fails to generate a response.<br>- Enabled **Copy Code** button for code blocks, allowing easy copying without manual selection.<br>- Improved UI design for a cleaner, more modern appearance. |
 | **V1.2** | - Added a **Stop Generating** button to abort ongoing AI responses.<br>- Enhanced error handling for more reliable performance.<br>- Improved local storage to **persist chat history** across page reloads and browser sessions.<br>- Refactored codebase for better structure and readability, making it easier for developers to customize. |
 | **V1.3** | - Added the ability to **download chat history** in `.json` format for backup or sharing.<br>- Introduced **editable prompts**, allowing users to correct typos or rephrase their input after sending. |
+| **V1.4** | - **Improved UI consistency** with complete styling for all buttons, including the stop button.<br> - **Better code organization** with cleaner *CSS* structure and unnecessary comments removed.<br> - **Improved input box structure** for a more polished and consistent user interface. | 
