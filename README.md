@@ -1,7 +1,7 @@
 # ***ChatAPI - V1.4***
 *A standalone HTML chat interface for interacting with AI models via API. No installation, no backend, just a single file hosted.*
 
-**Try it live:** [Live Website!](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
+**Try it live:** [ChatAPI](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## How to Use:
 1. **Open the App**  
-   Visit the hosted page: [Live Website!](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
+   Visit the hosted page: [ChatAPI](https://samrylanjamesharris.github.io/ChatAPI/chatapi.html)
 2. **Open Settings**  
    Click the **Settings** button in the top-right.
 3. **Enter Your API Details**
@@ -56,7 +56,7 @@
 ## Updates & History:
 | Version | Features and Improvements |
 |---------|----------------------------|
-| **V1.0** | - Initial release allowing users to interact with any AI model using an **API key**.<br>- Formatted in **Markdown** for more readability, supporting headers, code blocks, tables, and etc. |
+| **V1.0** | - **Initial release** allowing users to interact with any AI model using an **API key**.<br>- Formatted in **Markdown** for more readability, supporting headers, code blocks, tables, and etc. |
 | **V1.1** | - Added a **Clear Chat** button to easily erase conversation history without reloading the page.<br>- Introduced **Retry** functionality if the AI fails to generate a response.<br>- Enabled **Copy Code** button for code blocks, allowing easy copying without manual selection.<br>- Improved UI design for a cleaner, more modern appearance. |
 | **V1.2** | - Added a **Stop Generating** button to abort ongoing AI responses.<br>- Enhanced error handling for more reliable performance.<br>- Improved local storage to **persist chat history** across page reloads and browser sessions.<br>- Refactored codebase for better structure and readability, making it easier for developers to customize. |
 | **V1.3** | - Added the ability to **download chat history** in `.json` format for backup or sharing.<br>- Introduced **editable prompts**, allowing users to correct typos or rephrase their input after sending. |
