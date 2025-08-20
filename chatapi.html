@@ -32,6 +32,21 @@
       --transition-fast: 0.2s ease;
       --transition-normal: 0.3s ease;
     }
+    body.light-mode {
+        --bg-primary: #f4f6f8;
+        --bg-secondary: #ffffff;
+        --bg-tertiary: #f8f9fa;
+        --border-color: #dee2e6;
+        --user-msg-bg: #8a63d2;
+        --ai-msg-bg: #e9ecef;
+        --accent-color: #8a63d2;
+        --accent-hover: #7150c2;
+        --text-primary: #212529;
+        --text-secondary: #6c757d;
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
+    }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -46,9 +61,8 @@
       height: 100vh;
       position: relative;
       overflow: hidden;
+      transition: background-color var(--transition-normal), color var(--transition-normal);
     }
-    
-    /* Layout Components */
     header {
       padding: 16px 20px;
       background-color: var(--bg-secondary);
@@ -72,7 +86,7 @@
       display: flex;
       gap: 10px;
     }
-    #settings-btn, #clear-btn, #export-btn {
+    #settings-btn, #clear-btn, #export-btn, #import-btn, #theme-toggle-btn {
       background: var(--bg-tertiary);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
@@ -86,7 +100,7 @@
       gap: 6px;
       font-family: inherit;
     }
-    #settings-btn:hover, #clear-btn:hover, #export-btn:hover {
+    #settings-btn:hover, #clear-btn:hover, #export-btn:hover, #import-btn:hover, #theme-toggle-btn:hover {
       background: var(--accent-color);
       color: white;
       border-color: var(--accent-color);
@@ -131,6 +145,9 @@
       align-self: flex-end;
       border-bottom-right-radius: 4px;
     }
+    body.light-mode .user {
+        color: #ffffff;
+    }
     .ai {
       background-color: var(--ai-msg-bg);
       align-self: flex-start;
@@ -143,6 +160,10 @@
       border-radius: 4px;
       font-family: 'Fira Code', 'JetBrains Mono', monospace;
       font-size: 0.9em;
+    }
+    body.light-mode .ai code {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #d63384;
     }
     .ai pre {
       background-color: var(--bg-tertiary);
@@ -163,6 +184,9 @@
     .ai strong {
       font-weight: 600;
       color: #e2e8f0;
+    }
+    body.light-mode .ai strong {
+        color: #000;
     }
     .ai em {
       font-style: italic;
@@ -193,6 +217,9 @@
     }
     .ai tr:nth-child(even) {
        background-color: rgba(255,255,255,0.02);
+    }
+    body.light-mode .ai tr:nth-child(even) {
+       background-color: rgba(0,0,0,0.02);
     }
     #input-box {
       display: flex;
@@ -262,6 +289,10 @@
       border-radius: 5px;
       border: 2px solid var(--bg-secondary);
     }
+    body.light-mode ::-webkit-scrollbar-thumb {
+      background-color: #ced4da;
+      border-color: var(--bg-secondary);
+    }
     ::-webkit-scrollbar-track {
       background-color: var(--bg-secondary);
     }
@@ -319,6 +350,9 @@
       color: white;
       background: rgba(255,255,255,0.1);
     }
+    body.light-mode .close:hover {
+        background: rgba(0,0,0,0.1);
+    }
     .form-group {
       margin-bottom: 22px;
     }
@@ -351,7 +385,7 @@
     }
     .modal-content h2 {
       margin-bottom: 24px;
-      color: white;
+      color: var(--text-primary);
       text-align: center;
       font-weight: 700;
       font-size: 1.5rem;
@@ -396,6 +430,14 @@
     @keyframes pulse {
       0% { box-shadow: var(--shadow-lg); }
       50% { box-shadow: 0 0 0 10px rgba(138, 99, 210, 0.1); }
+      100% { box-shadow: var(--shadow-lg); }
+    }
+    body.light-mode #welcome-message {
+      animation-name: pulse-light;
+    }
+    @keyframes pulse-light {
+      0% { box-shadow: var(--shadow-lg); }
+      50% { box-shadow: 0 0 0 10px rgba(138, 99, 210, 0.05); }
       100% { box-shadow: var(--shadow-lg); }
     }
     .copy-button {
@@ -532,8 +574,6 @@
     .edit-cancel:hover {
       background: var(--bg-tertiary);
     }
-    
-    /* Responsive Design */
     @media (max-width: 768px) {
       .message {
         max-width: 90%;
@@ -573,8 +613,10 @@
 </head>
 <body>
   <header>
-    <div class="logo">V1.4</div>
+    <div class="logo">V1.5</div>
     <div class="header-buttons">
+      <button id="theme-toggle-btn" aria-label="Switch to light mode">
+         </button>
       <button id="clear-btn" aria-label="Clear chat">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
         Clear Chat
@@ -582,6 +624,10 @@
       <button id="export-btn" aria-label="Export chat">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         Export Chat
+      </button>
+      <button id="import-btn" aria-label="Import chat">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        Import Chat
       </button>
       <button id="settings-btn" aria-label="Open settings">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -631,6 +677,7 @@
       </form>
     </div>
   </div>
+  <input type="file" id="import-file-input" accept=".json" style="display: none;" aria-hidden="true" />
   <script>
     const chat = document.getElementById('chat');
     const input = document.getElementById('input');
@@ -638,10 +685,13 @@
     const stop = document.getElementById('stop');
     const clearBtn = document.getElementById('clear-btn');
     const exportBtn = document.getElementById('export-btn');
+    const importBtn = document.getElementById('import-btn');
+    const importFileInput = document.getElementById('import-file-input');
     const settingsBtn = document.getElementById('settings-btn');
     const settingsModal = document.getElementById('settings-modal');
     const closeBtn = document.querySelector('.close');
     const settingsForm = document.getElementById('settings-form');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const defaultApiKey = "";
     const defaultApiUrl = "";
     const defaultModel = "";
@@ -661,7 +711,7 @@
       <div style="margin-bottom: 16px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-color);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
       </div>
-      <h2 style="margin-bottom: 12px; color: white;">ChatAPI</h2>
+      <h2 style="margin-bottom: 12px; color: var(--text-primary);">ChatAPI</h2>
       <p>Standalone AI Chat Interface.</p>
     `;
     chat.appendChild(welcomeMessage);
@@ -712,6 +762,50 @@
     }
     
     exportBtn.addEventListener('click', exportChat);
+
+    function importChat(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedData = JSON.parse(e.target.result);
+                if (!importedData.messages || !Array.isArray(importedData.messages)) {
+                    throw new Error('Invalid chat file format.');
+                }
+
+                while (chat.firstChild) chat.removeChild(chat.firstChild);
+                currentAiMessageElement = null;
+                currentAiMessageContent = "";
+                
+                messages = importedData.messages;
+                
+                messages.forEach((msg, index) => {
+                    if (msg.role === 'system') return;
+                    const roleClass = msg.role === 'assistant' ? 'ai' : 'user';
+                    const msgEl = appendMessage(roleClass, msg.content, messages.findIndex(m => m === msg));
+                    if (msg.role === 'assistant') {
+                        msgEl.innerHTML = marked.parse(msg.content);
+                    }
+                });
+
+                saveMessagesToStorage();
+                addCopyButtons();
+                hideWelcomeMessage();
+
+            } catch (error) {
+                console.error('Failed to import chat:', error);
+                alert('Error: Could not import chat. Please ensure you are using a valid JSON export file.');
+            } finally {
+                event.target.value = null;
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    importBtn.addEventListener('click', () => importFileInput.click());
+    importFileInput.addEventListener('change', importChat);
     
     function showSettings() {
       document.getElementById('api-key').value = apiSettings.key;
@@ -1103,7 +1197,7 @@
           if (err.name === 'TypeError') {
             userMessage = "Network error - check connection";
           }
-        
+          
           const errorElement = appendMessage('ai', `Error: ${userMessage}`);
           errorElement.classList.add('error-message');
           addRetryButton(errorElement, userInput);
@@ -1114,6 +1208,7 @@
         controller = null;
       }
     }
+
     send.addEventListener('click', () => sendMessage());
     stop.addEventListener('click', () => {
       if (controller) {
@@ -1124,7 +1219,8 @@
           messages.push({ role: 'assistant', content: currentAiMessageContent });
           saveMessagesToStorage();
           addCopyButtons();
-        }  
+        }
+        
         currentAiMessageElement = null;
         currentAiMessageContent = "";
         send.style.display = 'flex';
@@ -1139,7 +1235,32 @@
         sendMessage();
       }
     });
+
+    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+    const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggleBtn.innerHTML = moonIcon;
+            themeToggleBtn.setAttribute('aria-label', 'Switch to dark mode');
+        } else {
+            document.body.classList.remove('light-mode');
+            themeToggleBtn.innerHTML = sunIcon;
+            themeToggleBtn.setAttribute('aria-label', 'Switch to light mode');
+        }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = localStorage.getItem('chatapi_theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('chatapi_theme', newTheme);
+        applyTheme(newTheme);
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('chatapi_theme') || 'dark';
+      applyTheme(savedTheme);
       addCopyButtons();
     });
   </script>
