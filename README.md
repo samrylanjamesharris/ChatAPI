@@ -10,14 +10,14 @@
 ---
 
 ## Features:
-- **Zero Dependencies**: Just one HTML file. Easy to host and share.
+- **Zero Dependencies**: Just one HTML file. Easy to host, share, and edit.
 - **Fully Configurable**: Set your API key, model, endpoint, and system prompt if you want to.
-- **UI**: Dark mode design with animations and responsive layout.
+- **UI**: Offers Light Mode & Dark Mode design with animations and with a responsive layout.
 - **Markdown Support**: AI responses are rendered with full Markdown (code blocks, tables, lists, etc.).
-- **Local Storage**: Remembers your settings between sessions.
+- **Local Storage**: Remembers your settings if you exit out or reload the page later. No retyping.
 - **Works with Any API**: Compatible with OpenAI, Anthropic, Mistral, Ollama, OpenRouter, Gemini, etc.
-- **Edit Prompts**: You can now edit your own prompt if you did a typo or worded it incorrectly.
-- **Export Chat**: You also can download your AI chat in .json for all your needs incase it's for training a model or saving it for later.
+- **Edit Prompts**: You can now edit your own prompt if you did a typo or worded it incorrectly and resend them.
+- **Export and Import Chats**: You also can download your AI chats in .json and reload them later.
 - **Chat Storage**: When you exit the website or reload the page, it'll still be saved for later.
 
 ---
