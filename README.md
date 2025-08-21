@@ -16,7 +16,7 @@
 - **Markdown Support**: AI responses are rendered with full Markdown (code blocks, tables, lists, etc.).
 - **Local Storage**: Remembers your settings if you exit out or reload the page later. No retyping.
 - **Works with Any API**: Compatible with OpenAI, Anthropic, Mistral, Ollama, OpenRouter, Gemini, etc.
-- **Edit Prompts**: You can now edit your own prompt if you did a typo or worded it incorrectly and resend them.
+- **Edit Prompts**: You can now edit your own prompt if you did a typo or worded it incorrectly.
 - **Export and Import Chats**: You also can download your AI chats in .json and reload them later.
 - **Chat Storage**: When you exit the website or reload the page, it'll still be saved for later.
 
